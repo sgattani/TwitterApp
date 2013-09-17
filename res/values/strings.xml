@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">i2weeter</string>
+    <string name="action_logout">Logout</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_photos">Flickr Photos</string>
+    <string name="login_label">Log in</string>
+    <string name="title_activity_home_timeline">Home</string>
+    <string name="title_activity_profile"></string>
+    <string name="refresh_menu_label">Refresh</string>
+    <string name="compose_menu_label">Compose</string>
+    <string name="profile_menu_label">Profile</string>
+    <string name="tweet_count">140</string>
+    <string name="title_activity_compose_tweet"></string>
+    <string name="user_image_label">User Image</string>
+    <string name="compose_tweet_hint">What\'s happening?</string>
+    <string name="twitter_icon_text">Twitter Icon</string>
+    <string name="home_tab_text">Home</string>
+    <string name="mentions_tab_text">Mentions</string>
+    <string name="profile_image_label">Profile Image</string>
+    <string name="name_label">Name</string>
+    <string name="tagline_label">Tagline</string>
+
+</resources>
