@@ -4,16 +4,19 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bootcamp.gattani.twitterapp.R;
+import com.bootcamp.gattani.twitterapp.activities.ProfileActivity;
 import com.bootcamp.gattani.twitterapp.models.Tweet;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.ocpsoft.pretty.time.PrettyTime;
@@ -33,10 +36,18 @@ public class TweetsAdapter extends ArrayAdapter<Tweet> {
 	    	view = inflater.inflate(R.layout.tweet_item, null);
 	    }
 	     
-        Tweet tweet = getItem(position);
+        final Tweet tweet = getItem(position);
         
         ImageView imageView = (ImageView) view.findViewById(R.id.ivProfile);
         ImageLoader.getInstance().displayImage(tweet.getUser().getProfileImageUrl(), imageView);
+        imageView.setOnClickListener(new OnClickListener() {	
+			@Override
+			public void onClick(View v) {
+				Intent i = new Intent(v.getContext(), ProfileActivity.class);
+				i.putExtra("screen_name", tweet.getUser().getScreenName());
+				v.getContext().startActivity(i);
+			}
+		});
         
         TextView nameView = (TextView) view.findViewById(R.id.tvName);
         String formattedName = "<b>" + tweet.getUser().getName() + "</b>" + " <small><font color='#777777'>@" +

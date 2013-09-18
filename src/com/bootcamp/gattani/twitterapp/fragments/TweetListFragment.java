@@ -2,6 +2,7 @@ package com.bootcamp.gattani.twitterapp.fragments;
 
 import java.util.ArrayList;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -23,6 +24,7 @@ public abstract class TweetListFragment extends Fragment{
 	protected PullToRefreshListView lvTweets;
 	protected ArrayList<Tweet> tweets;
 	protected TweetsAdapter tweetLvAdapter;
+	protected String screenName;
 	
 	public enum GET {
 		ON_LOAD,
@@ -36,7 +38,11 @@ public abstract class TweetListFragment extends Fragment{
 		super.onCreate(savedInstanceState);
 		tweets = new ArrayList<Tweet>();
 		tweetLvAdapter = new TweetsAdapter(getActivity(), tweets);
-
+		//find screen name if possible
+		Intent i = getActivity().getIntent();
+		if(i != null && i.getExtras() != null){
+	    	screenName = i.getStringExtra("screen_name");
+		}
 	}
 	
 	@Override
@@ -85,7 +91,7 @@ public abstract class TweetListFragment extends Fragment{
 	 * 
 	 * @param invoked
 	 */
-	protected void getTweetsByInvoction(GET invoked){
+	public void getTweetsByInvoction(GET invoked){
 		RequestParams rparams = null;
 		boolean overWriteLocal = false;;
 		boolean resetPosition = true;

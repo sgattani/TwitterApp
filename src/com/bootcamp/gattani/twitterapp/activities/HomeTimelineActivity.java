@@ -16,8 +16,11 @@ import com.bootcamp.gattani.twitterapp.MyTwitterApp;
 import com.bootcamp.gattani.twitterapp.R;
 import com.bootcamp.gattani.twitterapp.fragments.HomeTimelineFragment;
 import com.bootcamp.gattani.twitterapp.fragments.MentionsTimelineFragment;
+import com.bootcamp.gattani.twitterapp.fragments.TweetListFragment.GET;
 
 public class HomeTimelineActivity extends FragmentActivity implements TabListener{	
+	HomeTimelineFragment htf = null;
+	MentionsTimelineFragment mtf = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +91,11 @@ public class HomeTimelineActivity extends FragmentActivity implements TabListene
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ComposeTweetActivity.COMPOSE_TWEET_ACTIVITY_ID) {
 			if (resultCode == Activity.RESULT_OK) {
-				//getHomeTimeLineByInvoction(GET.ON_REFRESH);
+				ActionBar actionBar = getActionBar();
+				Tab selectedTab = actionBar.getSelectedTab();
+				if("HomeTimelineFragment".equals(selectedTab.getTag())){
+					htf.getTweetsByInvoction(GET.ON_REFRESH);
+				}
 			}			
 		}
 	}
@@ -103,9 +110,11 @@ public class HomeTimelineActivity extends FragmentActivity implements TabListene
 		FragmentManager manager = getSupportFragmentManager();
 		android.support.v4.app.FragmentTransaction fts = manager.beginTransaction();
 		if(tab.getTag().equals("HomeTimelineFragment")) {
-			fts.replace(R.id.frame_container, new HomeTimelineFragment());
+			htf = new HomeTimelineFragment();
+			fts.replace(R.id.frame_container, htf);
 		} else {
-			fts.replace(R.id.frame_container, new MentionsTimelineFragment());
+			mtf = new MentionsTimelineFragment();
+			fts.replace(R.id.frame_container, mtf);
 		}
 		fts.commit();
 	}
