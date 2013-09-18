@@ -30,6 +30,8 @@ public class Tweet extends Model implements Comparable<Tweet> {
 	@Column(name = "CreateTs")
 	protected long createdTs;
 
+	protected long tweetId;
+	
     public User getUser() {
         return user;
     }
@@ -73,8 +75,36 @@ public class Tweet extends Model implements Comparable<Tweet> {
 	public int compareTo(Tweet another) {
 		return (int) (another.createdTs - this.createdTs);
 	} 
+   
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (createdTs ^ (createdTs >>> 32));
+		result = prime * result + (int) (tweetId ^ (tweetId >>> 32));
+		return result;
+	}
 
-    
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		Tweet other = (Tweet) obj;
+		if (createdTs != other.createdTs)
+			return false;
+		if (tweetId != other.tweetId)
+			return false;
+		return true;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
@@ -82,7 +112,7 @@ public class Tweet extends Model implements Comparable<Tweet> {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Tweet [");
-		builder.append("id=");
+		builder.append("tweetId=");
 		builder.append(getTweetId());
 		builder.append(", ");
 		if (user != null) {
@@ -114,6 +144,7 @@ public class Tweet extends Model implements Comparable<Tweet> {
             tweet.jsonObject = jsonObject;
             tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
             tweet.createdTs = tweet.getCreatedAt().getTime();
+            tweet.tweetId = tweet.getTweetId();
         } catch (JSONException e) {
             e.printStackTrace();
             return null;

@@ -53,6 +53,8 @@ public class HomeTimelineFragment extends TweetListFragment {
 				tweets.addAll(Tweet.getStoredTweets());
 				Collections.sort(tweets);
 				lvTweets.smoothScrollToPosition(0);
+				tweetLvAdapter.notifyDataSetChanged();
+				lvTweets.onRefreshComplete();
 				return;
 			}
 		});				

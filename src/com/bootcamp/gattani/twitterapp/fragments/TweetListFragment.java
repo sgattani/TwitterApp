@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,11 +56,8 @@ public abstract class TweetListFragment extends Fragment{
 		lvTweets.setOnScrollListener(new EndlessScrollListener() {
 			@Override
 			public void loadMore(int page, int totalItemsCount) {  	  
-				//artificially clipped to not load more than 200 tweets when scrolling 
-				if(tweets != null && !tweets.isEmpty() && tweets.size() < 200){
+				if(tweets != null && !tweets.isEmpty()){
 					getTweetsByInvoction(GET.ON_SCROLL);
-				} else {
-					Log.d("DEBUG", "End of tweets ...");
 				}    			
 			}
 		});

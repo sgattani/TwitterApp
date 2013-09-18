@@ -1,10 +1,13 @@
 package com.bootcamp.gattani.twitterapp.fragments;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.json.JSONArray;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bootcamp.gattani.twitterapp.MyTwitterApp;
 import com.bootcamp.gattani.twitterapp.models.Tweet;
@@ -27,7 +30,10 @@ public class MentionsTimelineFragment extends TweetListFragment{
 		MyTwitterApp.getRestClient().getMentionsTimeline(rparams, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray jsonTweets){
-				tweets.addAll(Tweet.fromJson(jsonTweets));
+				List<Tweet> newTweets = Tweet.fromJson(jsonTweets);
+				if(!tweets.containsAll(newTweets)){
+					tweets.addAll(newTweets);				
+				}
 				//Collections.sort(tweets);
 				Log.d("DEBUG", Arrays.deepToString(tweets.toArray()));
 				tweetLvAdapter.notifyDataSetChanged();
@@ -36,21 +42,14 @@ public class MentionsTimelineFragment extends TweetListFragment{
 					//scroll to top
 					lvTweets.smoothScrollToPosition(0);
 				}
-				
-				if(overWriteLocal){
-					Tweet.overWriteTweets(tweets);					
-				} else {
-					Tweet.storeTweets(tweets);
-				}
 			}
 			
 			@Override
 			public void onFailure(Throwable error, String content){
-				Log.d("DEBUG", "Offline ... loading stored tweets");
+				Toast.makeText(getActivity(), "Could not download tweets", Toast.LENGTH_SHORT).show();
 				tweets.clear();
-				tweets.addAll(Tweet.getStoredTweets());
-				//Collections.sort(tweets);
-				lvTweets.smoothScrollToPosition(0);
+				tweetLvAdapter.notifyDataSetChanged();
+				lvTweets.onRefreshComplete();
 				return;
 			}
 		});				
